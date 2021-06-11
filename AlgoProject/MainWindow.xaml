@@ -1,0 +1,23 @@
+﻿<Window x:Class="AlgoProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AlgoProject" xmlns:model="clr-namespace:AlgoProject.Model" xmlns:viewmodel="clr-namespace:AlgoProject.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SortViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <ComboBox Name="typeSortList" Height="30" VerticalAlignment="Top">            
+            <ComboBox.ItemTemplate >
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="{Binding TypeSort}" Width="16" Height="16" Margin="0,2,5,2" />
+                        <TextBlock Text="{Binding TypeSort}"  />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ComboBox ItemsSource="{Binding AllTypeSort}"/>
+    </Grid>
+</Window>
