@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlgoProject.ViewModel
+namespace AlgoProject.ViewModel.SortingTypes
 {
-    class SortSelection
+    interface ISort
     {
-
+        void Sort(int[] array);
     }
 }
