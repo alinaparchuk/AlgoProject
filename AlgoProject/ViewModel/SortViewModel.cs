@@ -1,61 +1,133 @@
 ﻿using AlgoProject.Model;
+using AlgoProject.ViewModel.SortingTypes;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace AlgoProject.ViewModel
 {
     class SortViewModel: INotifyPropertyChanged
-    {
+    {        
+        ISort sort;
+        ICommand _sortCom; 
         SortModel sortModel;
+        Action<int[]> sortAction;
 
-        TypeSort selectedTypeSort;
-        
+        int[] DataArray { get; set; }
 
         public SortViewModel()
         {
             sortModel = new SortModel();
+            sortData = new ObservableCollection<SortModel>();
+        }
+
+        public string ElapsedTime
+        {
+            get { return sortModel.ElapsedTime; }
+            set
+            {
+                sortModel.ElapsedTime = value;
+                OnPropertyChanged(nameof(ElapsedTime));
+            }
         }
 
         public TypeSort SelectedTypeSort
         {
-            get { return selectedTypeSort; }
+            get { return sortModel.SelectedTypeSort; }
             set
             {
-                selectedTypeSort = value;
+                sortModel.SelectedTypeSort = value;
                 OnPropertyChanged(nameof(SelectedTypeSort));
+            }
+        }
+
+        public int SelectedNumberElements
+        {
+            get { return sortModel.SelectedNumberElements; }
+            set
+            {
+                sortModel.SelectedNumberElements = value;
+                OnPropertyChanged(nameof(SelectedNumberElements));
+            }
+        }
+
+        private ObservableCollection<SortModel> sortData { get; set; }
+
+        public ObservableCollection<SortModel> SortData
+        {
+            get { return sortData; }
+            set
+            {
+                sortData = value;
+                OnPropertyChanged(nameof(SortData));
             }
         }
 
         public IEnumerable<TypeSort> AllTypeSort =>  Enum.GetValues(typeof(TypeSort)).Cast<TypeSort>();
 
+        public IEnumerable<int> AllNumberElements => new[] { 10000, 25000, 50000, 100000 };
 
 
-        public void SortArray(TypeSort selectedTypeSort)
+        public ICommand SortCom => _sortCom ?? (_sortCom = new CommandBase(SortArray));
+
+        public void SortArray(object value = null)
         {
-            var m = Enum.GetValues(typeof(TypeSort)).Cast<TypeSort>();
-
-            switch (selectedTypeSort)
+            DataArray = GenerateArray(SelectedNumberElements);
+            switch (SelectedTypeSort)
             {
                 case TypeSort.BubbleSort:
-                    
+                    sort = new BubbleSort();
+                    sortAction = (DataArray) => sort.Sort(DataArray);
+                    ElapsedTime = CalculateTime(sortAction);
+                    SortData.Add(new SortModel() 
+                    { 
+                        SelectedNumberElements = this.SelectedNumberElements, 
+                        SelectedTypeSort = this.SelectedTypeSort,
+                        ElapsedTime = this.ElapsedTime });
                     break;
+
                 case TypeSort.QuickSort:
+                    sort = new QuickSort();
+                    sortAction = (DataArray) => sort.Sort(DataArray);
+                    ElapsedTime = CalculateTime(sortAction);
+                    SortData.Add(new SortModel()
+                    {
+                        SelectedNumberElements = this.SelectedNumberElements,
+                        SelectedTypeSort = this.SelectedTypeSort,
+                        ElapsedTime = this.ElapsedTime
+                    });
                     break;
+
                 case TypeSort.MergeSort:
+                    sort = new BubbleSort();
+                    sortAction = (DataArray) => sort.Sort(DataArray);
+                    ElapsedTime = CalculateTime(sortAction);
+                    SortData.Add(new SortModel()
+                    {
+                        SelectedNumberElements = this.SelectedNumberElements,
+                        SelectedTypeSort = this.SelectedTypeSort,
+                        ElapsedTime = this.ElapsedTime
+                    });
                     break;
             }
         }
 
-        private void Swap(ref int x, ref int y)
+
+        public string CalculateTime(Action<int[]> Sort)
         {
-            var t = x;
-            x = y;
-            y = t;
+            var stopWatch = Stopwatch.StartNew();
+            Sort(DataArray);
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            return string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);             
         }
 
         public int[] GenerateArray(int volume)
@@ -70,79 +142,7 @@ namespace AlgoProject.ViewModel
             }
 
             return array;
-        }
-
-        public int[] BubbleSort(int volume, int[] arr)
-        {
-            for (int i = 0; i < volume - 1; i++)
-            {
-                for (int j = 0; j < volume - i - 1; j++)
-                    if (arr[j] > arr[j + 1])
-                    {
-                        // swap temp and arr[i]
-                        int temp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = temp;
-                    }
-            }
-            return arr;
-        }
-
-        public void MergeSort(int volume, int[] arr)
-        {
-
-        }
-
-        private static int Partition(int[] arr, int left, int right)
-        {
-            int pivot = arr[left];
-            while (true)
-            {
-
-                while (arr[left] < pivot)
-                {
-                    left++;
-                }
-
-                while (arr[right] > pivot)
-                {
-                    right--;
-                }
-
-                if (left < right)
-                {
-                    if (arr[left] == arr[right]) return right;
-
-                    int temp = arr[left];
-                    arr[left] = arr[right];
-                    arr[right] = temp;
-
-
-                }
-                else
-                {
-                    return right;
-                }
-            }
-        }
-
-        public void QuickSort(int[] arr, int left, int right)
-        {
-            if (left < right)
-            {
-                int pivot = Partition(arr, left, right);
-
-                if (pivot > 1)
-                {
-                    QuickSort(arr, left, pivot - 1);
-                }
-                if (pivot + 1 < right)
-                {
-                    QuickSort(arr, pivot + 1, right);
-                }
-            }
-        }
-
+        }    
 
         #region INotifyPropertyChanged
 
@@ -155,13 +155,4 @@ namespace AlgoProject.ViewModel
 
         #endregion
     }
-
-
-    enum TypeSort
-    {
-        BubbleSort,
-        QuickSort,
-        MergeSort
-    }
-
 }

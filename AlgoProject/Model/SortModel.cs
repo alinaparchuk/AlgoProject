@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlgoProject.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,15 +11,37 @@ namespace AlgoProject.Model
 {
     class SortModel : INotifyPropertyChanged
     {
-        private string timeAlgorithm;
+        private string elapsedTime;
+        private TypeSort selectedTypeSort;
+        private int selectedNumberElements;
 
-        public string TimeAlgorithm
+        public string ElapsedTime
         {
-            get { return timeAlgorithm; }
+            get { return elapsedTime; }
             set
             {
-                timeAlgorithm = value;
-                OnPropertyChanged(nameof(TimeAlgorithm));
+                elapsedTime = value;
+                OnPropertyChanged(nameof(ElapsedTime));
+            }
+        }
+
+        public TypeSort SelectedTypeSort
+        {
+            get { return selectedTypeSort; }
+            set
+            {
+                selectedTypeSort = value;
+                OnPropertyChanged(nameof(SelectedTypeSort));
+            }
+        }
+
+        public int SelectedNumberElements
+        {
+            get { return selectedNumberElements; }
+            set
+            {
+                selectedNumberElements = value;
+                OnPropertyChanged(nameof(SelectedNumberElements));
             }
         }
 
@@ -33,4 +56,12 @@ namespace AlgoProject.Model
 
         #endregion
     }
+
+    enum TypeSort
+    {
+        BubbleSort,
+        QuickSort,
+        MergeSort
+    }
+
 }
