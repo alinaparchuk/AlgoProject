@@ -1,43 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlgoProject.ViewModel.SortingTypes
+﻿namespace AlgoProject.ViewModel.SortingTypes
 {
-    class QuickSort : ISort
+    public class QuickSort : ISort
     {
+        /// <summary>Sorting an array using the algorithm "Quick sort".</summary>
+        /// <param name="array">Array with random digits.</param>
         public void Sort(int[] array)
         {
             Sorting(array, 0, array.Length - 1);
         }
 
-        private void Sorting(int[] arr, int first, int last)
+        /// <summary>Method for sort array.</summary>
+        /// <param name="array">Array with random digits.</param>
+        /// <param name="first">Array start index.</param>
+        /// <param name="last">Array end index.</param>
+        private void Sorting(int[] array, int first, int last)
         {
-            int p = arr[(last - first) / 2 + first]; // ищем средний элемент
+            int p = array[(last - first) / 2 + first];
             int temp;
             int i = first, j = last;
+
             while (i <= j)
             {
-                while (arr[i] < p && i <= last)
+                while (array[i] < p && i <= last)
+                {
                     ++i;
-                while (arr[j] > p && j >= first) 
+                }
+
+                while (array[j] > p && j >= first)
+                {
                     --j;
+                }
 
                 if (i <= j)
                 {
-                    temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                    ++i; 
+                    temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                    ++i;
                     --j;
                 }
             }
-            if (j > first) Sorting(arr, first, j);
-            if (i < last) Sorting(arr, i, last);
+
+            if (j > first)
+            {
+                Sorting(array, first, j);
+            }
+
+            if (i < last)
+            {
+                Sorting(array, i, last);
+            }
         }
-               
     }
 }

@@ -1,35 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlgoProject.ViewModel.SortingTypes
+﻿namespace AlgoProject.ViewModel.SortingTypes
 {
     class MergeSort : ISort
     {
+        /// <summary>Sorting an array using the algorithm "Merge sort".</summary>
+        /// <param name="array">Array with random digits.</param>
         public void Sort(int[] array)
         {
-           Sorting(array, 0, array.Length - 1);
+            Sorting(array, 0, array.Length - 1);
         }
 
+        /// <summary>Method for sort and fragmentation arrays.</summary>
+        /// <param name="array">Array with random digits.</param>
+        /// <param name="lowIndex">Array start index.</param>
+        /// <param name="highIndex">Array end index.</param>
         private void Sorting(int[] array, int lowIndex, int highIndex)
         {
             if (lowIndex < highIndex)
             {
-                var middleIndex = (lowIndex + highIndex) / 2;
+                int middleIndex = (lowIndex + highIndex) / 2;
                 Sorting(array, lowIndex, middleIndex);
                 Sorting(array, middleIndex + 1, highIndex);
                 Merge(array, lowIndex, middleIndex, highIndex);
             }
         }
 
-        void Merge(int[] array, int lowIndex, int middleIndex, int highIndex)
+        /// <summary>Method for merging arrays.</summary> 
+        /// <param name="array">Array with random digits.</param>
+        /// <param name="lowIndex">Array start index.</param>
+        /// <param name="middleIndex">Midpoint index.</param>
+        /// <param name="highIndex">Array end index.</param>
+        private void Merge(int[] array, int lowIndex, int middleIndex, int highIndex)
         {
-            var left = lowIndex;
-            var right = middleIndex + 1;
-            var tempArray = new int[highIndex - lowIndex + 1];
-            var index = 0;
+            int left = lowIndex;
+            int right = middleIndex + 1;
+            int[] tempArray = new int[highIndex - lowIndex + 1];
+            int index = 0;
 
             while ((left <= middleIndex) && (right <= highIndex))
             {
@@ -47,19 +52,19 @@ namespace AlgoProject.ViewModel.SortingTypes
                 index++;
             }
 
-            for (var i = left; i <= middleIndex; i++)
+            for (int i = left; i <= middleIndex; i++)
             {
                 tempArray[index] = array[i];
                 index++;
             }
 
-            for (var i = right; i <= highIndex; i++)
+            for (int i = right; i <= highIndex; i++)
             {
                 tempArray[index] = array[i];
                 index++;
             }
 
-            for (var i = 0; i < tempArray.Length; i++)
+            for (int i = 0; i < tempArray.Length; i++)
             {
                 array[lowIndex + i] = tempArray[i];
             }

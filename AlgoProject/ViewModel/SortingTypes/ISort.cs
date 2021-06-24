@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlgoProject.ViewModel.SortingTypes
+﻿namespace AlgoProject.ViewModel.SortingTypes
 {
-    interface ISort
+    public interface ISort
     {
+        /// <summary>Sorting an array using sorting algorithms.</summary>
+        /// <param name="array">Array with random digits.</param>
         void Sort(int[] array);
     }
 }

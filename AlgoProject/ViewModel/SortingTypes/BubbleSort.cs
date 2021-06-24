@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AlgoProject.ViewModel.SortingTypes
+﻿namespace AlgoProject.ViewModel.SortingTypes
 {
-    class BubbleSort : ISort
-    {        
-        public void Sort(int[] arr)
+    public class BubbleSort : ISort
+    {
+        /// <summary>Sorting an array using the algorithm "Bubble sort".</summary>
+        /// <param name="array">Array with random digits.</param>
+        public void Sort(int[] array)
         {
-            for (int i = 0; i < arr.Length - 1; i++)
+            for (int i = 0; i < array.Length - 1; i++)
             {
-                for (int j = 0; j < arr.Length - i - 1; j++)
-
-                    if (arr[j] > arr[j + 1])
+                for (int j = 0; j < array.Length - i - 1; j++)
+                {
+                    if (array[j] > array[j + 1])
                     {
-                        int temp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = temp;
+                        int temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp;
                     }
+                }
             }
         }
     }
