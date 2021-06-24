@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AlgoProject" xmlns:model="clr-namespace:AlgoProject.Model" xmlns:viewmodel="clr-namespace:AlgoProject.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SortViewModel}"
         mc:Ignorable="d"
-        Title="Sorting algorithms speed" Height="450" Width="600">
+        Title="Sorting algorithms speed" Height="650" Width="570">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="60"/>
+            <!--<RowDefinition Height="250"/>-->
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -17,7 +18,7 @@
             <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="160" />
-        </Grid.ColumnDefinitions>        
+        </Grid.ColumnDefinitions>
         <ComboBox Grid.Column="0" Grid.Row="1" Width="130" HorizontalAlignment="Center" Height="30" 
                   ItemsSource="{Binding AllTypeSort}" IsSynchronizedWithCurrentItem="True" 
                   SelectedItem="{Binding SelectedTypeSort}"/>
@@ -31,11 +32,11 @@
         <TextBlock Grid.Column="1" Grid.Row="0" Width="130" VerticalAlignment="Bottom" HorizontalAlignment="Left" TextAlignment="Left">Number of elements:</TextBlock>
         <TextBlock Grid.Column="3" Grid.Row="0" Width="130" VerticalAlignment="Bottom" TextAlignment="Left">Result time:</TextBlock>
 
-        <DataGrid Grid.ColumnSpan="4" Grid.Row="2" Margin="0,0,-30,0" ItemsSource="{Binding SortData}">
+        <DataGrid Grid.ColumnSpan="4" Grid.Row="2" ItemsSource="{Binding SortData}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Sort type" Binding="{Binding Path=SelectedTypeSort}" Width="190"/>
                 <DataGridTextColumn Header="Number of elements" Binding="{Binding Path=SelectedNumberElements}" Width="190"/>
-                <DataGridTextColumn Header="Result time" Binding="{Binding Path=ElapsedTime}" Width="220"/>
+                <DataGridTextColumn Header="Result time" Binding="{Binding Path=ElapsedTime}" Width="200"/>
             </DataGrid.Columns>
         </DataGrid>
 
